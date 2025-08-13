@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>رمزگشاچی پارسا</title>
+  <title>Parsa Decoder</title>
   <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css" />
   <style>
     body {
@@ -20,7 +20,7 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    textarea, select, button {
+    textarea, button {
       width: 100%;
       margin-top: 10px;
       padding: 10px;
@@ -47,7 +47,6 @@
       background: #2c2c2c;
     }
     body.dark-mode textarea,
-    body.dark-mode select,
     body.dark-mode button {
       background: #3a3a3a;
       color: #f0f0f0;
@@ -57,25 +56,46 @@
 </head>
 <body>
   <div class="container">
-    <h2>🔐 ابزار رمزگشاچی پارسا</h2>
-    <label>متن را وارد کنید:</label>
+    <h2 id="title">🔐 ابزار رمزگشاچی پارسا</h2>
+    <button onclick="toggleLanguage()">🌐 تغییر زبان / Switch Language</button>
+
+    <label id="inputLabel">متن را وارد کنید:</label>
     <textarea id="inputText" rows="5"></textarea>
 
-    <button onclick="decode()">🔓 رمزگشایی (خودکار)</button>
-    <button onclick="encodeBase64()">🔒 رمزگذاری Base64</button>
-    <button onclick="encodeURL()">🔒 رمزگذاری URL</button>
-    <button onclick="encodeHTML()">🔒 تبدیل به HTML Entity</button>
+    <button onclick="decode()" id="decodeBtn">🔓 رمزگشایی (خودکار)</button>
+    <button onclick="encodeBase64()" id="base64Btn">🔒 رمزگذاری Base64</button>
+    <button onclick="encodeURL()" id="urlBtn">🔒 رمزگذاری URL</button>
+    <button onclick="encodeHTML()" id="htmlBtn">🔒 تبدیل به HTML Entity</button>
 
-    <button onclick="clearFields()">🧹 پاک کردن همه‌چیز</button>
-    <button onclick="copyOutput()">📋 کپی خروجی</button>
-    <button onclick="saveOutput()">💾 ذخیره خروجی در فایل</button>
-    <button onclick="toggleDarkMode()">🌙 تغییر حالت تاریک/روشن</button>
+    <button onclick="clearFields()" id="clearBtn">🧹 پاک کردن همه‌چیز</button>
+    <button onclick="copyOutput()" id="copyBtn">📋 کپی خروجی</button>
+    <button onclick="saveOutput()" id="saveBtn">💾 ذخیره خروجی در فایل</button>
+    <button onclick="toggleDarkMode()" id="darkBtn">🌙 تغییر حالت تاریک/روشن</button>
 
-    <label>📄 خروجی:</label>
+    <label id="outputLabel">📄 خروجی:</label>
     <textarea id="outputText" rows="5" readonly></textarea>
   </div>
 
   <script>
+    let isEnglish = false;
+
+    function toggleLanguage() {
+      isEnglish = !isEnglish;
+      document.body.style.direction = isEnglish ? "ltr" : "rtl";
+
+      document.getElementById("title").innerText = isEnglish ? "🔐 Parsa Decoder Tool" : "🔐 ابزار رمزگشاچی پارسا";
+      document.getElementById("inputLabel").innerText = isEnglish ? "Enter your text:" : "متن را وارد کنید:";
+      document.getElementById("decodeBtn").innerText = isEnglish ? "🔓 Decode (Auto)" : "🔓 رمزگشایی (خودکار)";
+      document.getElementById("base64Btn").innerText = isEnglish ? "🔒 Encode Base64" : "🔒 رمزگذاری Base64";
+      document.getElementById("urlBtn").innerText = isEnglish ? "🔒 Encode URL" : "🔒 رمزگذاری URL";
+      document.getElementById("htmlBtn").innerText = isEnglish ? "🔒 Encode HTML Entity" : "🔒 تبدیل به HTML Entity";
+      document.getElementById("clearBtn").innerText = isEnglish ? "🧹 Clear All" : "🧹 پاک کردن همه‌چیز";
+      document.getElementById("copyBtn").innerText = isEnglish ? "📋 Copy Output" : "📋 کپی خروجی";
+      document.getElementById("saveBtn").innerText = isEnglish ? "💾 Save Output to File" : "💾 ذخیره خروجی در فایل";
+      document.getElementById("darkBtn").innerText = isEnglish ? "🌙 Toggle Dark/Light Mode" : "🌙 تغییر حالت تاریک/روشن";
+      document.getElementById("outputLabel").innerText = isEnglish ? "📄 Output:" : "📄 خروجی:";
+    }
+
     function decode() {
       const text = document.getElementById("inputText").value;
       let result = "";
@@ -90,7 +110,7 @@
         } else if (/^[A-Za-z0-9+/=]+$/.test(text) && text.length % 4 === 0) {
           method = "base64";
         } else {
-          throw "نوع رمزگذاری قابل تشخیص نیست!";
+          throw "Unknown encoding!";
         }
 
         if (method === "base64") {
@@ -103,7 +123,7 @@
           result = txt.value;
         }
       } catch (e) {
-        result = "❌ خطا در رمزگشایی! لطفاً ورودی را بررسی کنید.";
+        result = isEnglish ? "❌ Error decoding! Please check your input." : "❌ خطا در رمزگشایی! لطفاً ورودی را بررسی کنید.";
       }
 
       document.getElementById("outputText").value = result;
@@ -135,7 +155,7 @@
       const output = document.getElementById("outputText");
       output.select();
       document.execCommand("copy");
-      alert("✅ خروجی کپی شد!");
+      alert(isEnglish ? "✅ Output copied!" : "✅ خروجی کپی شد!");
     }
 
     function saveOutput() {
