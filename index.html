@@ -58,10 +58,14 @@
 <body>
   <div class="container">
     <h2>🔐 ابزار رمزگشاچی پارسا</h2>
-    <label>متن رمزگذاری‌شده را وارد کنید:</label>
+    <label>متن را وارد کنید:</label>
     <textarea id="inputText" rows="5"></textarea>
 
-    <button onclick="decode()">رمزگشایی کن (خودکار)</button>
+    <button onclick="decode()">🔓 رمزگشایی (خودکار)</button>
+    <button onclick="encodeBase64()">🔒 رمزگذاری Base64</button>
+    <button onclick="encodeURL()">🔒 رمزگذاری URL</button>
+    <button onclick="encodeHTML()">🔒 تبدیل به HTML Entity</button>
+
     <button onclick="clearFields()">🧹 پاک کردن همه‌چیز</button>
     <button onclick="copyOutput()">📋 کپی خروجی</button>
     <button onclick="saveOutput()">💾 ذخیره خروجی در فایل</button>
@@ -103,6 +107,23 @@
       }
 
       document.getElementById("outputText").value = result;
+    }
+
+    function encodeBase64() {
+      const text = document.getElementById("inputText").value;
+      document.getElementById("outputText").value = btoa(text);
+    }
+
+    function encodeURL() {
+      const text = document.getElementById("inputText").value;
+      document.getElementById("outputText").value = encodeURIComponent(text);
+    }
+
+    function encodeHTML() {
+      const text = document.getElementById("inputText").value;
+      const txt = document.createElement("textarea");
+      txt.textContent = text;
+      document.getElementById("outputText").value = txt.innerHTML;
     }
 
     function clearFields() {
