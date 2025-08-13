@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>رمزگشاچی پارسا</title>
+  <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css" />
   <style>
     body {
       font-family: Vazir, sans-serif;
@@ -17,12 +18,26 @@
       background: white;
       padding: 20px;
       border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     textarea, select, button {
       width: 100%;
       margin-top: 10px;
       padding: 10px;
       font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
     }
     body.dark-mode {
       background: #1e1e1e;
